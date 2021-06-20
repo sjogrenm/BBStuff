@@ -79,12 +79,16 @@ for (const [key, value] of Object.entries(data))
 
 function updateTV() {
     let team = data[$team.val()];
-    let tv = team.rr * $rr.val() + ($apo[0].checked ? 50 : 0);
-    for (i = 0; i < 16; ++i) {
-        let id = "p" + i;
-        let pid = $("#"+id).val();
-        if (pid !== "none") {
-            tv += team.players[pid].cost;
+    let tv = 0;
+    if (team) {
+        tv += team.rr * $rr.val();
+        tv += $apo[0].checked ? 50 : 0;
+        for (i = 0; i < 16; ++i) {
+            let id = "p" + i;
+            let pid = $("#" + id).val();
+            if (pid !== "none") {
+                tv += team.players[pid].cost;
+            }
         }
     }
     $tv.text(tv + "k");
@@ -92,18 +96,24 @@ function updateTV() {
 
 function update() {
     let team = data[$team.val()];
-    if (team.apo) {
-        $apoDiv.show();
-    } else {
-        $apo[0].checked = false;
-        $apoDiv.hide();
-    }
-    let url = "roster.html?team=" + $team.val() + "&rr=" + $rr.val() + "&apo=" + ($apo[0].checked ? 1 : 0);
-    for (i = 0; i < 16; ++i) {
-        let id = "p" + i;
-        let pid = $("#"+id).val();
-        if (pid !== "none") {
-            url += "&" + id + "=" + pid;
+    let url = "roster.html";
+    if (team) {
+        url += "?team=" + $team.val();
+        url += "&rr=" + $rr.val();
+        if (team.apo) {
+            url += "&apo=" + ($apo[0].checked ? 1 : 0);
+            $apoDiv.show();
+        } else {
+            $apo[0].checked = false;
+            $apoDiv.hide();
+        }
+
+        for (i = 0; i < 16; ++i) {
+            let id = "p" + i;
+            let pid = $("#" + id).val();
+            if (pid !== "none") {
+                url += "&" + id + "=" + pid;
+            }
         }
     }
     window.history.replaceState(null, "", url);
@@ -111,13 +121,17 @@ function update() {
 }
 
 function updateTeam() {
+    let team = data[$team.val()];
+    $apoDiv.toggle(team);
     for (i = 0; i < 16; ++i) {
         let id = "p" + i;
-        let $p = $("#"+id);
+        let $p = $("#" + id);
         $p.empty();
         $("<option selected/>").attr("value", "none").text("--Select player--").appendTo($p);
-        for (const [key, value] of Object.entries(data[$team.val()].players)) {
-            $("<option/>").attr("value", key).text(value.name).appendTo($p);
+        if (team) {
+            for (const [key, value] of Object.entries(team.players)) {
+                $("<option/>").attr("value", key).text(value.name).appendTo($p);
+            }
         }
     }
     update();
