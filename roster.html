@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://underscorejs.org/underscore.js"></script>
+    <script>
+let data = {
+    de: {
+        name: "Dark Elf",
+        rr: 50,
+        apo: true,
+        players: {
+            "we": { name: "Witch Elf", cost: 110, max: 2 },
+            "b": { name: "Blitzer", cost: 100, max: 4 },
+            "r": { name: "Runner", cost: 80, max: 2 },
+            "a": { name: "Assassin", cost: 90, max: 2 },
+            "l": { name: "Lineman", cost: 70, max: 16 }
+        }
+    },
+    orc: {
+        name: "Orc",
+        rr: 60,
+        apo: true,
+        players: {
+            "tr": { name: "Troll", cost: 110, max: 1 },
+            "bo": { name: "Black Orc Blocker", cost: 80, max: 4 },
+            "b": { name: "Blitzer", cost: 80, max: 4 },
+            "th": { name: "Thrower", cost: 70, max: 2 },
+            "g": { name: "Goblin", cost: 40, max: 4 },
+            "l": { name: "Lineman", cost: 50, max: 16 }
+        }
+    }
+};
+
+const params = new URLSearchParams(window.location.search);
+
+    </script>
+</head>
+
+<body>
+    <div>
+        Team:
+        <select id="team">
+            <option selected>--Select team--</option>
+        </select>
+    </div>
+    <div>
+        Rerolls:
+        <input type="number" id="rr" value="0"/>
+    </div>
+    <div id="apoDiv">
+        <input type="checkbox" id="apo"> Apothecary
+    </div>
+    <div id="roster">
+    </div>
+    <div>
+        Team value:
+        <span id="tv"/>
+    </div>
+</body>
+
+<script>
+
+let $team = $("#team");
+let $rr = $("#rr");
+let $apoDiv = $("#apoDiv");
+let $apo = $("#apo");
+let $roster = $("#roster");
+let $tv = $("#tv");
+
+for (const [key, value] of Object.entries(data))
+{
+    let $opt = $("<option>").attr("value", key).appendTo($team);
+    $opt.append(value.name);
+}
+
+function updateTV() {
+    let team = data[$team.val()];
+    let tv = team.rr * $rr.val() + ($apo[0].checked ? 50 : 0);
+    for (i = 0; i < 16; ++i) {
+        let id = "p" + i;
+        let pid = $("#"+id).val();
+        if (pid !== "none") {
+            tv += team.players[pid].cost;
+        }
+    }
+    $tv.text(tv + "k");
+}
+
+function update() {
+    let team = data[$team.val()];
+    if (team.apo) {
+        $apoDiv.show();
+    } else {
+        $apo[0].checked = false;
+        $apoDiv.hide();
+    }
+    let url = "roster.html?team=" + $team.val() + "&rr=" + $rr.val() + "&apo=" + ($apo[0].checked ? 1 : 0);
+    for (i = 0; i < 16; ++i) {
+        let id = "p" + i;
+        let pid = $("#"+id).val();
+        if (pid !== "none") {
+            url += "&" + id + "=" + pid;
+        }
+    }
+    window.history.replaceState(null, "", url);
+    updateTV();
+}
+
+function updateTeam() {
+    for (i = 0; i < 16; ++i) {
+        let id = "p" + i;
+        let $p = $("#"+id);
+        $p.empty();
+        $("<option selected/>").attr("value", "none").text("--Select player--").appendTo($p);
+        for (const [key, value] of Object.entries(data[$team.val()].players)) {
+            $("<option/>").attr("value", key).text(value.name).appendTo($p);
+        }
+    }
+    update();
+}
+
+$team.on("change", updateTeam);
+$rr.on("change", update);
+$apo.on("change", update);
+
+for (i = 0; i < 16; ++i) {
+    let $container = $("<div/>").appendTo($roster);
+    let id = "p" + i;
+    let $p = $("<select/>").attr("id", id).appendTo($container);
+    $("<option selected/>").attr("value", "none").text("--Select player--").appendTo($p);
+    $p.on("change", update);
+}
+
+$apoDiv.hide();
+
+if (params.has("team")) {
+    $team.val(params.get("team"));
+    updateTeam();
+}
+if (params.has("rr")) {
+    $rr.val(params.get("rr"));
+}
+if (params.get("apo") == 1) {
+    $apo[0].checked = true;
+}
+for (i = 0; i < 16; ++i) {
+    let id = "p" + i;
+    if (params.has(id)) {
+        let $p = $("#"+id);
+        $p.val(params.get(id));
+    }
+}
+
+update();
+
+</script>
+</html>
