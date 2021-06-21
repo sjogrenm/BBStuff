@@ -4,6 +4,15 @@
 <head>
     <meta charset="utf-8" />
     <title>Blood Bowl 2 Roster Calculator</title>
+    <style>
+.left
+{
+    display: inline-block;
+    width: 100px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+    </style>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://underscorejs.org/underscore.js"></script>
     <script>
@@ -42,23 +51,18 @@ const params = new URLSearchParams(window.location.search);
 
 <body>
     <div>
-        Team:
-        <select id="team">
-            <option selected>--Select team--</option>
-        </select>
+        <span class="left">Team:</span><select id="team"><option selected>--Select team--</option></select>
     </div>
     <div>
-        Rerolls:
-        <input type="number" id="rr" value="0"/>
+        <span class="left">Rerolls:</span><input type="number" id="rr" value="0" min="0" max="8"/>
     </div>
-    <div id="apoDiv">
-        <input type="checkbox" id="apo"> Apothecary
+    <div>
+        <span class="left">Apothecary:</span><input type="checkbox" id="apo"/>
     </div>
     <div id="roster">
     </div>
     <div>
-        Team value:
-        <span id="tv"/>
+        <span class="left">Team value:</span><span id="tv"/>
     </div>
 </body>
 
@@ -66,7 +70,6 @@ const params = new URLSearchParams(window.location.search);
 
 let $team = $("#team");
 let $rr = $("#rr");
-let $apoDiv = $("#apoDiv");
 let $apo = $("#apo");
 let $roster = $("#roster");
 let $tv = $("#tv");
@@ -102,10 +105,8 @@ function update() {
         url += "&rr=" + $rr.val();
         if (team.apo) {
             url += "&apo=" + ($apo[0].checked ? 1 : 0);
-            $apoDiv.show();
         } else {
             $apo[0].checked = false;
-            $apoDiv.hide();
         }
 
         for (i = 0; i < 16; ++i) {
@@ -122,7 +123,6 @@ function update() {
 
 function updateTeam() {
     let team = data[$team.val()];
-    $apoDiv.toggle(team);
     for (i = 0; i < 16; ++i) {
         let id = "p" + i;
         let $p = $("#" + id);
@@ -143,13 +143,12 @@ $apo.on("change", update);
 
 for (i = 0; i < 16; ++i) {
     let $container = $("<div/>").appendTo($roster);
+    $("<span/>").addClass("left").text("Player " + (i+1) + ":").appendTo($container);
     let id = "p" + i;
     let $p = $("<select/>").attr("id", id).appendTo($container);
     $("<option selected/>").attr("value", "none").text("--Select player--").appendTo($p);
     $p.on("change", update);
 }
-
-$apoDiv.hide();
 
 if (params.has("team")) {
     $team.val(params.get("team"));
