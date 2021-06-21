@@ -24,9 +24,90 @@ let data = {
         players: {
             "we": { name: "Witch Elf", cost: 110, max: 2 },
             "b": { name: "Blitzer", cost: 100, max: 4 },
-            "r": { name: "Runner", cost: 80, max: 2 },
             "a": { name: "Assassin", cost: 90, max: 2 },
+            "r": { name: "Runner", cost: 80, max: 2 },
             "l": { name: "Lineman", cost: 70, max: 16 }
+        }
+    },
+    dw: {
+        name: "Dwarf",
+        rr: 50,
+        apo: true,
+        players: {
+            "dr": { name: "Death Roller", cost: 160, max: 1 },
+            "ts": { name: "Troll Slayer", cost: 90, max: 2 },
+            "b": { name: "Blitzer", cost: 80, max: 2 },
+            "r": { name: "Runner", cost: 80, max: 2 },
+            "l": { name: "Long Beard", cost: 70, max: 16 }
+        }
+    },
+    hu: {
+        name: "Human",
+        rr: 50,
+        apo: true,
+        players: {
+            "o": { name: "Ogre", cost: 130, max: 1 },
+            "b": { name: "Blitzer", cost: 90, max: 4 },
+            "c": { name: "Catcher", cost: 70, max: 4 },
+            "t": { name: "Thrower", cost: 70, max: 2 },
+            "l": { name: "Lineman", cost: 50, max: 15 }
+        }
+    },
+    kh: {
+        name: "Khemri",
+        rr: 70,
+        apo: false,
+        players: {
+            "tg": { name: "Tomb Guardian", cost: 100, max: 4 },
+            "br": { name: "Blitz-Ra", cost: 90, max: 2 },
+            "tr": { name: "Thro-Ra", cost: 70, max: 2 },
+            "s": { name: "Skeleton", cost: 40, max: 16 }
+        }
+    },
+    liz: {
+        name: "Lizardman",
+        rr: 60,
+        apo: true,
+        players: {
+            "k": { name: "Kroxigor", cost: 140, max: 1 },
+            "sa": { name: "Saurus", cost: 80, max: 6 },
+            "sk": { name: "Skink", cost: 60, max: 16 }
+        }
+    },
+    ne: {
+        name: "Necromantic",
+        rr: 70,
+        apo: false,
+        players: {
+            "ww": { name: "Werewolf", cost: 120, max: 2 },
+            "fg": { name: "Flesh Golem", cost: 110, max: 2 },
+            "w": { name: "Wight", cost: 90, max: 2 },
+            "g": { name: "Ghoul", cost: 70, max: 2 },
+            "z": { name: "Zombie", cost: 40, max: 16 }
+        }
+    },
+    no: {
+        name: "Norse",
+        rr: 60,
+        apo: true,
+        players: {
+            "y": { name: "Yhetee", cost: 140, max: 1 },
+            "u": { name: "Ulfwerener", cost: 110, max: 2 },
+            "b": { name: "Berserker", cost: 90, max: 2 },
+            "r": { name: "Runner", cost: 90, max: 2 },
+            "th": { name: "Thrower", cost: 70, max: 2 },
+            "l": { name: "Lineman", cost: 50, max: 16 }
+        }
+    },
+    nu: {
+        name: "Nurgle",
+        rr: 70,
+        apo: false,
+        players: {
+            "bn": { name: "Beast of Nurgle", cost: 140, max: 1 },
+            "nw": { name: "Nurgle Warrior", cost: 110, max: 4 },
+            "p": { name: "Pestigor", cost: 80, max: 4 },
+            "r": { name: "Rotter", cost: 40, max: 16 }
         }
     },
     orc: {
@@ -40,6 +121,42 @@ let data = {
             "th": { name: "Thrower", cost: 70, max: 2 },
             "g": { name: "Goblin", cost: 40, max: 4 },
             "l": { name: "Lineman", cost: 50, max: 16 }
+        }
+    },
+    sk: {
+        name: "Skaven",
+        rr: 60,
+        apo: true,
+        players: {
+            "ro": { name: "Rat Ogre", cost: 150, max: 1 },
+            "sv": { name: "Storm Vermin", cost: 90, max: 2 },
+            "gr": { name: "Gutter Runner", cost: 80, max: 4 },
+            "th": { name: "Thrower", cost: 70, max: 2 },
+            "l": { name: "Lineman", cost: 50, max: 16 }
+        }
+    },
+    ud: {
+        name: "Undead",
+        rr: 70,
+        apo: false,
+        players: {
+            "mu": { name: "Mummy", cost: 120, max: 2 },
+            "w": { name: "Wight", cost: 90, max: 2 },
+            "g": { name: "Ghoul", cost: 70, max: 4 },
+            "s": { name: "Skeleton", cost: 40, max: 16 },
+            "z": { name: "Zombie", cost: 40, max: 16 }
+        }
+    },
+    we: {
+        name: "Wood Elf",
+        rr: 50,
+        apo: true,
+        players: {
+            "tm": { name: "Treeman", cost: 120, max: 1 },
+            "wd": { name: "Wardancer", cost: 120, max: 2 },
+            "c": { name: "Catcher", cost: 90, max: 4 },
+            "th": { name: "Thrower", cost: 90, max: 2 },
+            "l": { name: "Lineman", cost: 70, max: 16 }
         }
     }
 };
@@ -99,10 +216,10 @@ function updateTV() {
 
 function update() {
     let team = data[$team.val()];
-    let url = "roster.html";
+    let url = "roster.html?";
+    url += "rr=" + $rr.val();
     if (team) {
-        url += "?team=" + $team.val();
-        url += "&rr=" + $rr.val();
+        url += "&team=" + $team.val();
         if (team.apo) {
             url += "&apo=" + ($apo[0].checked ? 1 : 0);
         } else {
