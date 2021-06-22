@@ -5,12 +5,51 @@
     <meta charset="utf-8" />
     <title>Blood Bowl 2 Roster Calculator</title>
     <style>
+
+.row
+{
+    display: flex;
+    align-items: center;
+}
+
 .left
 {
     display: inline-block;
     width: 100px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    margin: 2px 0;
+    height: 23px;
+}
+
+input.number
+{
+    margin: 2px 0;
+    width: 140px;
+    box-sizing: border-box;
+    padding: 2px 6px;
+    height: 21px;
+    border-radius: 2px;
+    border-style: hidden;
+    background-color: lightgray;
+}
+
+input.checkbox
+{
+    margin: 7px 0;
+}
+
+select
+{
+    width: 140px;
+    padding: 2px 4px;
+    margin: 2px 0;
+    border-radius: 2px;
+    border-style: hidden;
+    background-color: lightgray;
+}
+
+.info-row
+{
+    margin-top: 10px;
 }
     </style>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -167,18 +206,18 @@ const params = new URLSearchParams(window.location.search);
 </head>
 
 <body>
-    <div>
+    <div class="row">
         <span class="left">Team:</span><select id="team"><option selected>--Select team--</option></select>
     </div>
-    <div>
-        <span class="left">Rerolls:</span><input type="number" id="rr" value="0" min="0" max="8"/>
+    <div class="row">
+        <span class="left">Rerolls:</span><input type="number" class="number" id="rr" value="0" min="0" max="8"/>
     </div>
-    <div>
-        <span class="left">Apothecary:</span><input type="checkbox" id="apo"/>
+    <div class="row">
+        <span class="left">Apothecary:</span><input type="checkbox" class="checkbox" id="apo"/>
     </div>
     <div id="roster">
     </div>
-    <div>
+    <div class="info-row">
         <span class="left">Team value:</span><span id="tv"/>
     </div>
 </body>
@@ -259,7 +298,7 @@ $rr.on("change", update);
 $apo.on("change", update);
 
 for (i = 0; i < 16; ++i) {
-    let $container = $("<div/>").appendTo($roster);
+    let $container = $("<div/>").addClass("row").appendTo($roster);
     $("<span/>").addClass("left").text("Player " + (i+1) + ":").appendTo($container);
     let id = "p" + i;
     let $p = $("<select/>").attr("id", id).appendTo($container);
