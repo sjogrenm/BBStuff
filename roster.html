@@ -5,31 +5,34 @@
     <meta charset="utf-8" />
     <title>Blood Bowl 2 Roster Calculator</title>
     <style>
-
 .row
 {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    margin: 2px 0;
 }
 
 .left
 {
     display: inline-block;
     width: 100px;
+}
+
+input.number, select
+{
+    width: 180px;
     margin: 2px 0;
-    height: 23px;
+    border-radius: 2px;
+    border-style: hidden;
+    background-color: lightgray;
 }
 
 input.number
 {
-    margin: 2px 0;
-    width: 140px;
     box-sizing: border-box;
     padding: 2px 6px;
     height: 21px;
-    border-radius: 2px;
-    border-style: hidden;
-    background-color: lightgray;
 }
 
 input.checkbox
@@ -39,12 +42,7 @@ input.checkbox
 
 select
 {
-    width: 140px;
     padding: 2px 4px;
-    margin: 2px 0;
-    border-radius: 2px;
-    border-style: hidden;
-    background-color: lightgray;
 }
 
 .info-row
@@ -53,7 +51,6 @@ select
 }
     </style>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://underscorejs.org/underscore.js"></script>
     <script>
 let data = {
     am: {
@@ -344,7 +341,7 @@ const params = new URLSearchParams(window.location.search);
     </div>
     <div id="roster">
     </div>
-    <div class="info-row">
+    <div class="row info-row">
         <span class="left">Team value:</span><span id="tv"/>
     </div>
 </body>
