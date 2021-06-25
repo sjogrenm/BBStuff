@@ -56,6 +56,48 @@ select
     <script src="https://underscorejs.org/underscore.js"></script>
     <script>
 let data = {
+    am: {
+        name: "Amazon",
+        rr: 50,
+        apo: true,
+        players: {
+            "b": { name: "Blitzer", cost: 90, max: 4 },
+            "c": { name: "Catcher", cost: 70, max: 2 },
+            "t": { name: "Thrower", cost: 70, max: 2 },
+            "l": { name: "Linewoman", cost: 50, max: 16 }
+        }
+    },
+    br: {
+        name: "Bretonnian",
+        rr: 70,
+        apo: true,
+        players: {
+            "b": { name: "Blitzer", cost: 110, max: 4 },
+            "y": { name: "Blocker", cost: 70, max: 4 },
+            "l": { name: "Lineman", cost: 40, max: 16 }
+        }
+    },
+    ch: {
+        name: "Chaos",
+        rr: 60,
+        apo: true,
+        players: {
+            "m": { name: "Minotaur", cost: 150, max: 1 },
+            "cw": { name: "Chaos Warrior", cost: 100, max: 4 },
+            "bm": { name: "Beastman", cost: 60, max: 16 }
+        }
+    },
+    cd: {
+        name: "Chaos Dwarf",
+        rr: 70,
+        apo: true,
+        players: {
+            "m": { name: "Minotaur", cost: 150, max: 1 },
+            "bc": { name: "Bull Centaur", cost: 130, max: 2 },
+            "bl": { name: "Chaos Dwarf Blocker", cost: 70, max: 6 },
+            "h": { name: "Hobgoblin", cost: 40, max: 16 }
+        }
+    },
     de: {
         name: "Dark Elf",
         rr: 50,
@@ -80,6 +122,50 @@ let data = {
             "l": { name: "Long Beard", cost: 70, max: 16 }
         }
     },
+    eu: {
+        name: "Elven Union",
+        rr: 50,
+        apo: true,
+        players: {
+            "b": { name: "Blitzer", cost: 110, max: 2 },
+            "c": { name: "Catcher", cost: 100, max: 4 },
+            "t": { name: "Thrower", cost: 70, max: 2 },
+            "l": { name: "Lineman", cost: 60, max: 16 }
+        }
+    },
+    go: {
+        name: "Goblin",
+        rr: 60,
+        apo: true,
+        players: {
+            "t": { name: "Troll", cost: 110, max: 2 },
+            "p": { name: "Pogoer", cost: 70, max: 1 },
+            "f": { name: "Fanatic", cost: 70, max: 1 },
+            "b": { name: "Bombardier", cost: 40, max: 1 },
+            "l": { name: "Looney", cost: 40, max: 1 },
+            "g": { name: "Goblin", cost: 40, max: 16 }
+        }
+    },
+    he: {
+        name: "High Elf",
+        rr: 50,
+        apo: true,
+        players: {
+            "b": { name: "Blitzer", cost: 100, max: 2 },
+            "c": { name: "Catcher", cost: 90, max: 4 },
+            "t": { name: "Thrower", cost: 90, max: 2 },
+            "l": { name: "Lineman", cost: 70, max: 16 }
+        }
+    },
+    ha: {
+        name: "Halfling",
+        rr: 60,
+        apo: true,
+        players: {
+            "tm": { name: "Treeman", costs: 120, max: 2 },
+            "h": { name: "Halfling", cost: 30, max: 16 }
+        }
+    },
     hu: {
         name: "Human",
         rr: 50,
@@ -101,6 +187,17 @@ let data = {
             "br": { name: "Blitz-Ra", cost: 90, max: 2 },
             "tr": { name: "Thro-Ra", cost: 70, max: 2 },
             "s": { name: "Skeleton", cost: 40, max: 16 }
+        }
+    },
+    ki: {
+        name: "Kislev Circus",
+        rr: 50,
+        apo: true,
+        players: {
+            "tb": { name: "Tame Bear", cost: 140, max: 1 },
+            "b": { name: "Blitzer", cost: 110, max: 4 },
+            "c": { name: "Catcher", cost: 80, max: 4 },
+            "l": { name: "Lineman", cost: 60, max: 16 }
         }
     },
     liz: {
@@ -149,6 +246,15 @@ let data = {
             "r": { name: "Rotter", cost: 40, max: 16 }
         }
     },
+    og: {
+        name: "Ogre",
+        rr: 70,
+        apo: true,
+        players: {
+            "o": { name: "Ogre", cost: 140, max: 6 },
+            "g": { name: "Gnoblar", cost: 20, max: 16 }
+        }
+    },
     orc: {
         name: "Orc",
         rr: 60,
@@ -174,7 +280,7 @@ let data = {
             "l": { name: "Lineman", cost: 50, max: 16 }
         }
     },
-    ud: {
+    un: {
         name: "Undead",
         rr: 70,
         apo: false,
@@ -184,6 +290,27 @@ let data = {
             "g": { name: "Ghoul", cost: 70, max: 4 },
             "s": { name: "Skeleton", cost: 40, max: 16 },
             "z": { name: "Zombie", cost: 40, max: 16 }
+        }
+    },
+    ud: {
+        name: "Underworld Denizens",
+        rr: 70,
+        apo: true,
+        players: {
+            "wt": { name: "Warpstone Troll", cost: 110, max: 1 },
+            "sb": { name: "Skaven Blitzer", cost: 90, max: 2 },
+            "st": { name: "Skaven Thrower", cost: 70, max: 2 },
+            "sl": { name: "Skaven Lineman", cost: 50, max: 2 },
+            "ug": { name: "Underworld Goblin", cost: 40, max: 16 }
+        }
+    },
+    va: {
+        name: "Vampire",
+        rr: 70,
+        apo: true,
+        players: {
+            "v": { name: "Vampire", cost: 110, max: 6 },
+            "t": { name: "Thrall", cost: 40, max: 16 }
         }
     },
     we: {
