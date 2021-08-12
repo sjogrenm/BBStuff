@@ -3,6 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <meta id="og_title" property="og:title" content="Blood Bowl 2 Roster Calculator" />
     <title>Blood Bowl 2 Roster Calculator</title>
     <style>
 .row
@@ -375,6 +376,7 @@ function updateTV() {
         }
     }
     $tv.text(tv + "k");
+    return tv;
 }
 
 function update() {
@@ -398,7 +400,12 @@ function update() {
         }
     }
     window.history.replaceState(null, "", url);
-    updateTV();
+    let tv = updateTV();
+    if (team) {
+        $("#og_title").attr("content", "" + tv + "k " + team.name);
+    } else {
+        $("#og_title").attr("content", "Blood Bowl 2 Roster Calculator");
+    }
 }
 
 function updateTeam() {
