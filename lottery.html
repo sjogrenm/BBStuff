@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="../lotterymachine/lotteryMachine.js"></script>
+        <script>
+
+function randomize()
+{
+    $("#lottery").lotteryMachine('randomize');
+}
+        </script>
+    </head>
+    <body>
+        <div id="lottery"></div>
+        <button onclick="randomize()">Draw</button>
+        <script>
+            $(function() {
+                $("#lottery").lotteryMachine({
+                    containerRadius: 150,
+                    waitInterval: 1000,
+                    playSound: false,
+                    balls: [1,2,3,4,5,6]
+                })
+            });
+        </script>
+    </body>
+</html>
